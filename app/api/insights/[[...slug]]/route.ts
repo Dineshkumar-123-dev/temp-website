@@ -1,10 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const DOMAIN = 'temp-website-lake.vercel.app';
 const CMS_RENDER_BASE = 'https://dev-api.topgeo.ai/cms/render';
 
-export async function GET(request: Request, context: { params: { slug?: string[] } }) {
-  const slugPath = context.params.slug?.join('/') ?? '';
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ slug?: string[] }> }
+) {
+  const params = await context.params;
+  const slugPath = params.slug?.join('/') ?? '';
   const targetUrl = `${CMS_RENDER_BASE}/${DOMAIN}${slugPath ? `/${slugPath}` : '/'}`;
 
   const res = await fetch(targetUrl, {
