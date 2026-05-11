@@ -1,66 +1,70 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import { products } from '@/lib/data';
+import ProductCard from '@/components/ui/ProductCard';
 
 export default function Home() {
+  const featuredProducts = products.filter(p => p.featured);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="home-page">
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero-bg">
+          <img 
+            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=2000" 
+            alt="Hero Background" 
+          />
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="container">
+          <div className="hero-content animate-fade-in">
+            <span className="hero-subtitle">New Collection 2026</span>
+            <h1 className="heading-xl hero-title">Refined Aesthetics <br /> For Every Day</h1>
+            <div className="hero-actions" style={{ display: 'flex', gap: '1rem' }}>
+              <Link href="/shop" className="btn btn-primary">Shop Collection</Link>
+              <Link href="/about" className="btn btn-outline">Our Story</Link>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Featured Products */}
+      <section className="section">
+        <div className="container">
+          <div className="section-header">
+            <div>
+              <h2 className="heading-lg">Featured Arrivals</h2>
+              <p className="text-muted">Explore our hand-picked selection of premium essentials.</p>
+            </div>
+            <Link href="/shop" className="nav-link" style={{ borderBottom: '1px solid var(--accent)' }}>
+              View All
+            </Link>
+          </div>
+          
+          <div className="product-grid">
+            {featuredProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Categories / Collections CTA */}
+      <section className="section" style={{ background: 'var(--surface)' }}>
+        <div className="container">
+          <div className="product-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <div className="collection-card glass" style={{ padding: 'var(--space-xl)', textAlign: 'center', borderRadius: 'var(--radius-lg)' }}>
+              <h3 className="heading-md" style={{ marginBottom: '1rem' }}>Tech Essentials</h3>
+              <p className="text-muted" style={{ marginBottom: '2rem' }}>Precision engineering meets minimalist design.</p>
+              <Link href="/shop?category=tech" className="btn btn-outline">Explore Tech</Link>
+            </div>
+            <div className="collection-card glass" style={{ padding: 'var(--space-xl)', textAlign: 'center', borderRadius: 'var(--radius-lg)' }}>
+              <h3 className="heading-md" style={{ marginBottom: '1rem' }}>Lifestyle Wear</h3>
+              <p className="text-muted" style={{ marginBottom: '2rem' }}>Elegance for every occasion, crafted to last.</p>
+              <Link href="/shop?category=lifestyle" className="btn btn-outline">Explore Lifestyle</Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
